@@ -2,7 +2,13 @@ import React from "react";
 import { Button, Card, ProgressBar, Stack } from "react-bootstrap";
 import { currencyFormatter } from "../utils";
 
-export default function BudgetCard({ name, amount, maxAmount, gray }) {
+export default function BudgetCard({
+  name,
+  amount,
+  maxAmount,
+  gray,
+  onAddExpendClick,
+}) {
   const className = [];
   if (amount > maxAmount) {
     className.push("bg-danger", "bg-opacity-10");
@@ -33,7 +39,9 @@ export default function BudgetCard({ name, amount, maxAmount, gray }) {
           gap="2"
           className="mt-3 display-flex justify-content-end"
         >
-          <Button variant="outline-primary">Add Expense</Button>
+          <Button variant="outline-primary" onClick={onAddExpendClick}>
+            Add Expense
+          </Button>
           <Button variant="outline-secondary">View Expense</Button>
         </Stack>
       </Card.Body>

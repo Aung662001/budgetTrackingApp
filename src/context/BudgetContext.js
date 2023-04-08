@@ -1,16 +1,17 @@
 import React from "react";
 import { v4 as uuidV4 } from "uuid";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const BudgetContext = React.createContext();
 
 export function useBudget() {
-  React.useContext(BudgetContext);
+  return React.useContext(BudgetContext);
 }
 
 export function BudgetProvider({ children }) {
-  const [budgets, setBudgets] = useLocalStorage();
-  const [expenses, setExpenses] = useLocalStorage();
+  const [budgets, setBudgets] = useLocalStorage("budget", []);
+  const [expenses, setExpenses] = useLocalStorage("expense", []);
+
   function getBudgetExpenses(budgetId) {
     return expenses.filter((expense) => expense.budgetId === budgetId);
   }
@@ -19,9 +20,9 @@ export function BudgetProvider({ children }) {
       return [...prevExpense, { id: uuidV4(), description, amount, budgetId }];
     });
   }
-  function addBudget(name, max) {
+  function addBudget({ name, max }) {
     setBudgets((prevBudget) => {
-      if (prevBudget.find((budget) => (budget.name = name))) return prevBudget;
+      if (prevBudget.find((budget) => budget.name === name)) return prevBudget;
       return [...prevBudget, { id: uuidV4(), max, name }];
     });
   }
@@ -52,3 +53,4 @@ export function BudgetProvider({ children }) {
     </BudgetContext.Provider>
   );
 }
+export const UNCATEGORIZED_BUDGET_ID = "Uncategorized";

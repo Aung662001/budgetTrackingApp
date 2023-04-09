@@ -16,6 +16,8 @@ export default function BudgetCard({
     className.push("bg-danger", "bg-opacity-10");
   } else if (gray) {
     className.push("bg-light");
+  } else {
+    className.push("bg-dark text-white");
   }
   return (
     <Card className={className.join(" ")}>

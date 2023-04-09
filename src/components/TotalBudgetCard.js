@@ -14,7 +14,7 @@ export default function TotalBudgetCard() {
   if (usedAmount === 0 || maxAmount === 0) return null;
   return (
     <BudgetCard
-      gray
+      darkGray
       name="Total"
       amount={usedAmount}
       maxAmount={maxAmount}

@@ -8,6 +8,8 @@ export default function BudgetCard({
   maxAmount,
   gray,
   onAddExpendClick,
+  onViewExpenseClick,
+  hideButton,
 }) {
   const className = [];
   if (amount > maxAmount) {
@@ -21,29 +23,38 @@ export default function BudgetCard({
         <Card.Title className="d-flex justify-content-between align-items-baseline fw-normal mb-3">
           <div>{name}</div>
           <div className="d-flex align-items-baseline">
-            {currencyFormatter.format(amount)}/
-            <span className="ms-2 fs-6 text-mute">
-              {currencyFormatter.format(maxAmount)}
-            </span>
+            {currencyFormatter.format(amount)}
+            {maxAmount && (
+              <span className="ms-2 fs-6 text-mute">
+                /{currencyFormatter.format(maxAmount)}
+              </span>
+            )}
           </div>
         </Card.Title>
-        <ProgressBar
-          className="rounded-pill"
-          variant={getProgressBarVarient(amount, maxAmount)}
-          min={0}
-          max={maxAmount}
-          now={amount}
-        />
-        <Stack
-          direction="horizontal"
-          gap="2"
-          className="mt-3 display-flex justify-content-end"
-        >
-          <Button variant="outline-primary" onClick={onAddExpendClick}>
-            Add Expense
-          </Button>
-          <Button variant="outline-secondary">View Expense</Button>
-        </Stack>
+        {maxAmount && (
+          <ProgressBar
+            className="rounded-pill"
+            variant={getProgressBarVarient(amount, maxAmount)}
+            min={0}
+            max={maxAmount}
+            now={amount}
+          />
+        )}
+
+        {!hideButton && (
+          <Stack
+            direction="horizontal"
+            gap="2"
+            className="mt-3 display-flex justify-content-end"
+          >
+            <Button variant="outline-primary" onClick={onAddExpendClick}>
+              Add Expense
+            </Button>
+            <Button variant="outline-secondary" onClick={onViewExpenseClick}>
+              View Expense
+            </Button>
+          </Stack>
+        )}
       </Card.Body>
     </Card>
   );

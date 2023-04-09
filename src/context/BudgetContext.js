@@ -7,6 +7,7 @@ const BudgetContext = React.createContext();
 export function useBudget() {
   return React.useContext(BudgetContext);
 }
+export const UNCATEGORIZED_BUDGET_ID = "Uncategorized";
 
 export function BudgetProvider({ children }) {
   const [budgets, setBudgets] = useLocalStorage("budget", []);
@@ -27,6 +28,12 @@ export function BudgetProvider({ children }) {
     });
   }
   function deleteBudget({ id }) {
+    setExpenses((prevExpenses) => {
+      return prevExpenses.map((expense) => {
+        if (expense.budgetId !== id) return expense;
+        return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID };
+      });
+    });
     setBudgets((prevBudget) => {
       return prevBudget.filter((budget) => budget.id !== id);
     });
@@ -53,4 +60,3 @@ export function BudgetProvider({ children }) {
     </BudgetContext.Provider>
   );
 }
-export const UNCATEGORIZED_BUDGET_ID = "Uncategorized";
